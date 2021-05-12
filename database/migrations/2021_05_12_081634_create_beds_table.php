@@ -18,7 +18,7 @@ class CreateBedsTable extends Migration
             $table->integer('bed_number');
             $table->unsignedBigInteger('ward_id');
             $table->boolean('has_line')->default(false);
-            $table->foreign('ward_id')->references('id')->on('ward');
+            $table->foreign('ward_id')->references('id')->on('wards');
             $table->timestamps();
         });
     }

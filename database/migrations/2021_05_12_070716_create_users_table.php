@@ -18,13 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('title', 100);
             $table->string('username', 50)->unique();
             $table->string('password');
-            $table->unsignedBigInteger('designation_id')->nullable()->default(NULL);
-            $table->unsignedBigInteger('department_id')->nullable()->default(NULL);
             $table->boolean('is_admin')->default(FALSE);
-
-            $table->foreign('designation_id')->references('id')->on('designations');
-            $table->foreign('department_id')->references('id')->on('departments');
             $table->string('mobile', 10)->nullable()->default(NULL);
+            $table->string('token')->nullable()->default(NULL);
             $table->timestamps();
         });
     }

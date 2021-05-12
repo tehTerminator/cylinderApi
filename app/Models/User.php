@@ -34,18 +34,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password',
+        'username', 'password',
     ];
 
     protected $casts = [
         'is_admin' => 'boolean',
     ];
-
-    public function department(){
-        return $this->hasOne(Department::class);
-    }
-
-    public function designation(){
-        return $this->hasOne(Designation::class);
-    }
 }
