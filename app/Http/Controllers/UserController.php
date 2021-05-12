@@ -33,7 +33,8 @@ class UserController extends Controller
             'title' => 'required|string|max:100',
             'username' => 'required|max:50|unique:users',
             'password' => 'required',
-            'mobile' => 'digit:10|unique:users'
+            'mobile' => 'digits:10|unique:users',
+            'designation' => 'required|string'
         ]);
 
         $password = Hash::make($request->input('password'));
@@ -43,6 +44,7 @@ class UserController extends Controller
             'username' => $request->input('username'),
             'password' => $password,
             'mobile' => $request->input('mobile'),
+            'designation' => $request->input('designation')
         ]);
 
         return response()->json(['message' => 'User Created Success']);

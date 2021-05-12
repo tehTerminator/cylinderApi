@@ -25,6 +25,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'designation_id',
         'department_id',
         'is_admin',
+        'designation',
         'mobile'
     ];
 

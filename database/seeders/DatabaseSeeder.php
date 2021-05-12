@@ -17,10 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call('UsersTableSeeder');
         User::create([
-            'title' => 'Administrator',
+            'title' => 'Prateek Kher',
             'username' => 'admin',
             'password' => Hash::make('myPass'),
             'mobile' => '9425760707',
+            'designation' => 'Administrator',
             'is_admin' => true
         ]);
     }

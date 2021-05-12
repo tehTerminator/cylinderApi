@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_admin')->default(FALSE);
             $table->string('mobile', 10)->nullable()->default(NULL);
             $table->string('token')->nullable()->default(NULL);
+            $table->string('designation');
             $table->timestamps();
         });
     }

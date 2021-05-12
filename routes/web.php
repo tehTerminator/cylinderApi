@@ -2,6 +2,7 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use App\Models\Ward;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +20,15 @@ $router->get('/', function () use ($router) {
 });
 $router->post('select/user', ['uses' => 'UserController@select']);
 
-// $router->group(['prefix' => 'select', 'middleware'=>'auth'], function () use ($router) {
-// });
+$router->group(['prefix' => 'select', 'middleware'=>'auth'], function () use ($router) {
+    $router->get('wards', function() {
+        return response()->json(Ward::all());
+    });
+});
 
 $router->group(['prefix' => 'create', 'middleware'=>'auth'], function () use ($router){
     $router->post('user', ['uses' => 'UserController@create']);
-    $router->post('depatment', ['uses' => 'UserContoller@createDepartment']);
-    $router->post('designation', ['uses' => 'UserController@createDesignation']);
+    $router->post('ward', ['uses' => 'WardController@create']);
 });
 
 $router->group(['prefix' => 'update', 'middleware'=>'auth'], function () use ($router) {

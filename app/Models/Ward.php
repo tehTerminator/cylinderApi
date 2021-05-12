@@ -11,10 +11,10 @@ class Ward extends Model {
      * @var array
      */
     protected $fillable = [
-        'title'
+        'title', 'capacity'
     ];
 
-    public function beds() {
-        return $this->hasMany(Bed::class);
+    public function patients() {
+        return $this->hasMany(Patient::class);
     }
 }
