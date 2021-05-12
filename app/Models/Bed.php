@@ -14,9 +14,14 @@ class Bed extends Model {
         'bed_number',
         'ward_id',
         'has_line',
+        'patient_id'
     ];
 
     public function ward(){
         return $this->hasOne(Ward::class);
+    }
+
+    public function patient() {
+        return $this->hasOne(Patient::class);
     }
 }
