@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\OxygenRequest;
 use App\Models\Patient;
-use App\Models\Ward;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OxygenRequestController extends Controller
