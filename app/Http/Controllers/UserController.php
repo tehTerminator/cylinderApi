@@ -56,7 +56,7 @@ class UserController extends Controller
 
         $user = User::where('username', $request->input('username'))->first();
 
-        if ($user === NULL) {
+        if (is_null($user)) {
             return response('Unauthorised', 401);
         }
 
