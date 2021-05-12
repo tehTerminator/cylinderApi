@@ -19,11 +19,11 @@ class CreatePatientsTable extends Migration
             $table->string('father', 100);
             $table->integer('age');
             $table->string('mobile', 10);
-            $table->date('date_of_discharge')->nullable()->default(NULL);
+            $table->timestamp('date_of_discharge')->nullable()->default(NULL);
             $table->string('narration');
-            $table->unsignedBigInteger('bed_id');
+            $table->integer('bed_number');
+            $table->boolean('has_oxygen_line')->default(false);
             $table->unsignedBigInteger('ward_id');
-            $table->foreign('bed_id')->references('id')->on('beds');
             $table->foreign('ward_id')->references('id')->on('wards');
             $table->timestamps();
         });

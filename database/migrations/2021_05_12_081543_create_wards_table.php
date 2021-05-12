@@ -16,6 +16,7 @@ class CreateWardsTable extends Migration
         Schema::create('wards', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->integer('capacity');
             $table->timestamps();
         });
     }
