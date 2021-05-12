@@ -17,13 +17,10 @@ class Patient extends Model {
         'mobile',
         'date_of_discharge',
         'narration',
-        'bed_id',
+        'bed_number',
+        'has_oxygen_line',
         'ward_id',
     ];
-
-    public function bed() {
-        return $this->hasOne(Bed::class);
-    }
 
     public function ward() {
         return $this->hasOne(Ward::class);
