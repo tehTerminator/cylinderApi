@@ -24,7 +24,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
         'designation_id',
         'department_id',
-        'is_administrator',
+        'is_admin',
         'mobile'
     ];
 
@@ -35,6 +35,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = [
         'password',
+    ];
+
+    protected $casts = [
+        'is_admin' => 'boolean',
     ];
 
     public function department(){
