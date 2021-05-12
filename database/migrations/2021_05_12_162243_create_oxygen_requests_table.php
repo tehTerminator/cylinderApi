@@ -18,7 +18,7 @@ class CreateOxygenRequestsTable extends Migration
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('ward_id');
             $table->integer('bed_number');
-            $table->double('spo2_level');
+            $table->integer('spo2_level');
             $table->enum('state', ['ACTIVE', 'ACCEPTED', 'REJECTED'])->default('ACTIVE');
             $table->string('comment');
             $table->timestamps();

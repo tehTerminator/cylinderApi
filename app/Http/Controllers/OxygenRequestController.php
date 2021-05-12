@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OxygenRequest;
 use App\Models\Patient;
 use App\Models\Ward;
 use Carbon\Carbon;
@@ -21,48 +22,27 @@ class OxygenRequestController extends Controller
 
     public function create(Request $request) {
         $this->validate($request, [
-            'title' => 'required|string|max:100',
-            'father' => 'required|string|max:100',
-            'age' => 'required|integer|min:1|max:150',
-            'mobile' => 'required|digits:10',
-            'narration' => 'string',
+            'patient_id' => 'required|exists:App\Models\Patient,id',
+            'ward_id' => 'required|exists:App\Models\Ward,id',
             'bed_number' => 'required|integer|min:1',
-            'has_oxygen_line' => 'boolean',
-            'ward_id' => 'required|exists:App\Models\Ward,id'
+            'spo2_level' => 'required|integer|min:1|max:100',
+            'comment' => 'string'
         ]);
 
-        $patient = Patient::where('date_of_discharge', NULL)
-        ->where('ward_id', $request->input('ward_id'))
-        ->where('bed_number', $request->input('bed_number'))->first();
+        $patient = Patient::findOrFail($request->input('patient_id'));
 
-        if (is_null($patient)) {
-            $patient = Patient::create([
-                'title' => $request->input('title'),
-                'father' => $request->input('father'),
-                'age' => $request->input('age'),
-                'mobile' => $request->input('mobile'),
-                'narration' => $request->input('narration'),
-                'bed_number' => $request->input('bed_number'),
-                'has_oxygen_line' => $request->input('has_oxygen_line'),
+        if (is_null($patient->date_of_discharge)) {
+            $oxyRequest = OxygenRequest::create([
+                'patient_id' => $request->input('patient_id'),
                 'ward_id' => $request->input('ward_id'),
+                'bed_number' => $request->input('bed_number'),
+                'spo2_level' => $request->input('spo2_level'),
+                'comment' => $request->input('comment')
             ]);
 
-            return response()->json($patient);
+            return response()->json($oxyRequest);
         }
 
-        return response('Bed Already Occupied By Patient #' . $patient->id, 409);
-    }
-
-    public function dischargePatient(Request $request) {
-        $this->validate($request, [
-            'id' => 'required|integer'
-        ]);
-
-        $patient = Patient::findOrFail($request->input('id'));
-        $patient->date_of_discharge = Carbon::now();
-        $patient->save();
-
-        $patient = $patient->fresh();
-        return response()->json($patient);
+        return response('Patient #' . $patient->id . ' is Already Discharge', 409);
     }
 }
