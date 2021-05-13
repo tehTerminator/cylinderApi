@@ -20,9 +20,15 @@ class Patient extends Model {
         'bed_number',
         'has_oxygen_line',
         'ward_id',
+        'user_id',
+        'spo2_level'
     ];
 
     public function ward() {
-        return $this->hasOne(Ward::class);
+        return $this->belongsTo(Ward::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

@@ -6,7 +6,7 @@ use App\Models\Patient;
 use App\Models\Ward;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Driver\PathExistsButIsNotDirectoryException;
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -20,16 +20,21 @@ class PatientController extends Controller
         //
     }
 
+    public function select() {
+        $patient = Patient::where('date_of_discharge', NULL)->with(['ward'])->get();
+        return response()->json($patient);
+    }
+
     public function create(Request $request) {
         $this->validate($request, [
             'title' => 'required|string|max:100',
             'father' => 'required|string|max:100',
             'age' => 'required|integer|min:1|max:150',
             'mobile' => 'required|digits:10',
-            'narration' => 'string',
             'bed_number' => 'required|integer|min:1',
             'has_oxygen_line' => 'boolean',
-            'ward_id' => 'required|exists:App\Models\Ward,id'
+            'ward_id' => 'required|exists:App\Models\Ward,id',
+            'spo2_level' => 'required|integer|min:0|max:100'
         ]);
 
         $patient = Patient::where('date_of_discharge', NULL)
@@ -46,15 +51,19 @@ class PatientController extends Controller
                 'bed_number' => $request->input('bed_number'),
                 'has_oxygen_line' => $request->input('has_oxygen_line'),
                 'ward_id' => $request->input('ward_id'),
+                'spo2_level' => $request->input('spo2_level'),
+                'user_id' => Auth::user()->id
             ]);
 
-            return response()->json($patient);
+            $newPatient = Patient::where('id', $patient->id)->with(['ward'])->first();
+
+            return response()->json($newPatient);
         }
 
         return response('Bed Already Occupied By Patient #' . $patient->id, 409);
     }
 
-    public function dischargePatient(Request $request) {
+    public function discharge(Request $request) {
         $this->validate($request, [
             'id' => 'required|integer'
         ]);

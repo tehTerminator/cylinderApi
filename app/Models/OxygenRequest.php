@@ -22,10 +22,10 @@ class OxygenRequest extends Model {
     ];
 
     public function ward() {
-        return $this->hasOne(Ward::class);
+        return $this->belongsTo(Ward::class);
     }
 
     public function patient() {
-        return $this->hasOne(Patient::class);
+        return $this->belongsTo(Patient::class);
     }
 }
