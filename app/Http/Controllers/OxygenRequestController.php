@@ -35,12 +35,25 @@ class OxygenRequestController extends Controller
                 'ward_id' => $request->input('ward_id'),
                 'bed_number' => $request->input('bed_number'),
                 'spo2_level' => $request->input('spo2_level'),
-                'comment' => $request->input('comment')
+                'comment' => $request->input('comment'),
+                'state' => 'ACTIVE'
             ]);
-
             return response()->json($oxyRequest);
         }
 
         return response('Patient #' . $patient->id . ' is Already Discharge', 409);
+    }
+
+    public function update(Request $request) {
+        $this->validate($request, [
+            'state' => 'required|in:APPROVED,REJECTED',
+            'id' => 'required|exists:App\Models\OxygenRequest,id'
+        ]);
+
+        $oxyRequest = OxygenRequest::find($request->input('id'));
+        $oxyRequest->state = $request->input('state');
+        $oxyRequest->save();
+
+        return response()->json($oxyRequest);
     }
 }
